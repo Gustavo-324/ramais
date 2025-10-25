@@ -1,4 +1,17 @@
 
+        input, textarea, [contenteditable="true"] {
+    user-select: text;
+    cursor: text;
+}
+
+* {
+    -webkit-user-modify: read-only;
+}
+
+input, textarea, [contenteditable="true"] {
+    -webkit-user-modify: read-write;
+} 
+        
         * {
             margin: 0;
             padding: 0;
@@ -8,7 +21,9 @@
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
-            min-height: 100vh;
+            min-height: 100vh; 
+            cursor: default;
+            user-select: none;
         }
 
         .header {

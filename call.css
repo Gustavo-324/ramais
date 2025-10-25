@@ -1,0 +1,851 @@
+
+input, textarea, [contenteditable="true"] {
+    user-select: text;
+    cursor: text;
+}
+
+* {
+    -webkit-user-modify: read-only;
+}
+
+input, textarea, [contenteditable="true"] {
+    -webkit-user-modify: read-write;
+}
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+            user-select: none;
+
+        }
+
+        /* ====== HEADER ====== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, #5DADE2 0%, #3b82f6 100%);
+            border-radius: 12px;
+            padding: 8px;
+            box-shadow: 0 4px 6px rgba(93, 173, 226, 0.3);
+        }
+
+        .logo-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .logo-text h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f9fafb;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .user-info:hover {
+            background: #f3f4f6;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+        }
+
+        .user-details h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* ====== CALL CONTAINER ====== */
+        .call-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .call-panel {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            padding: 48px 40px;
+            text-align: center;
+            border: 1px solid #f3f4f6;
+        }
+
+        /* ====== CALL STATUS ====== */
+        .call-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-radius: 20px;
+            margin-bottom: 32px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #5DADE2;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .call-status-badge span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        /* ====== CONTACT INFO ====== */
+        .contact-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, #5DADE2 0%, #60a5fa 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 48px;
+            box-shadow: 0 8px 24px rgba(93, 173, 226, 0.3);
+            position: relative;
+        }
+
+        .contact-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5DADE2 0%, #60a5fa 100%);
+            opacity: 0.2;
+            animation: ripple 2s infinite;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 0.2;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .contact-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .contact-ramal {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        /* ====== CALL TIMER ====== */
+        .call-timer {
+            font-size: 20px;
+            font-weight: 600;
+            color: #5DADE2;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        /* ====== CALL ACTIONS ====== */
+        .call-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .action-btn {
+            width: 64px;
+            height: 64px;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f3f4f6;
+            position: relative;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: #4b5563;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .action-btn.mute {
+            background: #fef3c7;
+        }
+
+        .action-btn.mute:hover {
+            background: #fde68a;
+        }
+
+        .action-btn.mute svg {
+            stroke: #92400e;
+        }
+
+        .action-btn.mute.active {
+            background: #fbbf24;
+        }
+
+        .action-btn.mute.active svg {
+            stroke: white;
+        }
+
+        .action-btn.hold {
+            background: #dbeafe;
+        }
+
+        .action-btn.hold:hover {
+            background: #bfdbfe;
+        }
+
+        .action-btn.hold svg {
+            stroke: #1e40af;
+        }
+
+        .action-btn.hold.active {
+            background: #5DADE2;
+        }
+
+        .action-btn.hold.active svg {
+            stroke: white;
+        }
+
+        .action-btn.transfer {
+            background: #e0e7ff;
+        }
+
+        .action-btn.transfer:hover {
+            background: #c7d2fe;
+        }
+
+        .action-btn.transfer svg {
+            stroke: #4338ca;
+        }
+
+        .action-btn.keypad {
+            background: #f3e8ff;
+        }
+
+        .action-btn.keypad:hover {
+            background: #e9d5ff;
+        }
+
+        .action-btn.keypad svg {
+            stroke: #6b21a8;
+        }
+
+        .btn-label {
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: #6b7280;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        /* ====== PRIMARY ACTIONS ====== */
+        .primary-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 48px;
+        }
+
+        .btn-answer {
+            width: 72px;
+            height: 72px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-answer:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.5);
+        }
+
+        .btn-answer svg {
+            width: 32px;
+            height: 32px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .btn-end {
+            width: 72px;
+            height: 72px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
+        }
+
+        .btn-end:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(220, 38, 38, 0.5);
+        }
+
+        .btn-end svg {
+            width: 32px;
+            height: 32px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ====== KEYPAD MODAL ====== */
+        .keypad-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+        }
+
+        .keypad-modal.show {
+            display: flex;
+        }
+
+        .keypad-content {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 320px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .keypad-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .keypad-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .btn-close-keypad {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-close-keypad:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-close-keypad svg {
+            width: 16px;
+            height: 16px;
+            stroke: #6b7280;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .keypad-display {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 24px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .keypad-btn {
+            aspect-ratio: 1;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .keypad-btn:hover {
+            background: #e5e7eb;
+            transform: scale(0.95);
+        }
+
+        .keypad-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* ====== TRANSFER MODAL ====== */
+        .transfer-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+        }
+
+        .transfer-modal.show {
+            display: flex;
+        }
+
+        .transfer-content {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .transfer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .transfer-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .btn-close-transfer {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-close-transfer:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-close-transfer svg {
+            width: 16px;
+            height: 16px;
+            stroke: #6b7280;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .transfer-search {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .transfer-search input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .transfer-search input:focus {
+            outline: none;
+            border-color: #5DADE2;
+            box-shadow: 0 0 0 3px rgba(93, 173, 226, 0.1);
+        }
+
+        .transfer-search svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            stroke: #9ca3af;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .transfer-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .transfer-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 4px;
+        }
+
+        .transfer-item:hover {
+            background: #f9fafb;
+        }
+
+        .transfer-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .transfer-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .transfer-info p {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* ====== MINIMIZED CALL ====== */
+        .minimized-call {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: white;
+            border-radius: 16px;
+            padding: 16px 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            display: none;
+            align-items: center;
+            gap: 16px;
+            z-index: 1000;
+            min-width: 300px;
+            border: 1px solid #f3f4f6;
+        }
+
+        .minimized-call.show {
+            display: flex;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .minimized-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #5DADE2 0%, #60a5fa 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .minimized-info {
+            flex: 1;
+        }
+
+        .minimized-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .minimized-info p {
+            font-size: 12px;
+            color: #5DADE2;
+            font-weight: 600;
+        }
+
+        .minimized-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-minimize-action {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-minimize-action.expand {
+            background: #dbeafe;
+        }
+
+        .btn-minimize-action.expand:hover {
+            background: #bfdbfe;
+        }
+
+        .btn-minimize-action.expand svg {
+            width: 18px;
+            height: 18px;
+            stroke: #1e40af;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .btn-minimize-action.end {
+            background: #fee2e2;
+        }
+
+        .btn-minimize-action.end:hover {
+            background: #fecaca;
+        }
+
+        .btn-minimize-action.end svg {
+            width: 18px;
+            height: 18px;
+            stroke: #dc2626;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            .call-panel {
+                padding: 32px 24px;
+            }
+
+            .contact-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+            }
+
+            .contact-name {
+                font-size: 24px;
+            }
+
+            .call-actions {
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .action-btn {
+                width: 56px;
+                height: 56px;
+            }
+
+            .btn-answer,
+            .btn-end {
+                width: 64px;
+                height: 64px;
+            }
+
+            .minimized-call {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+                min-width: auto;
+            }
+        }
+
+        /* ====== ESTADOS DA CHAMADA ====== */
+        /* Estado: Tocando (Incoming Call) */
+        .call-state-incoming .call-status-badge {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        }
+
+        .call-state-incoming .status-dot {
+            background: #f59e0b;
+        }
+
+        .call-state-incoming .call-status-badge span {
+            color: #92400e;
+        }
+
+        /* Estado: Em Chamada (Active Call) */
+        .call-state-active .call-status-badge {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        }
+
+        .call-state-active .status-dot {
+            background: #10b981;
+        }
+
+        .call-state-active .call-status-badge span {
+            color: #065f46;
+        }
+
+        /* Estado: Em Espera (On Hold) */
+        .call-state-hold .call-status-badge {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+        }
+
+        .call-state-hold .status-dot {
+            background: #6366f1;
+        }
+
+        .call-state-hold .call-status-badge span {
+            color: #312e81;
+        }

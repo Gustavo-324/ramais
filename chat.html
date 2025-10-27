@@ -3,200 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CloudPBX - Chat Corporativo</title>
+    <title>Chat - Sistema de Ramais</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-     <link rel="stylesheet" href="chat.css">
-
+    <link rel="stylesheet" href="chat.css">
 </head>
 <body>
+    <!-- Input para upload de foto (escondido) -->
+    <input type="file" id="photoUploadChat" accept="image/*" style="display: none;">
+
     <div class="header">
-        <div class="logo-section">
-            <div class="logo-icon">
-                <svg viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+        <div class="header-left">
+            <button class="btn-back" onclick="goToDashboard()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
                 </svg>
-            </div>
-            <div class="logo-text">
-                <h1>CloudPBX Chat</h1>
-                <p>Central de Mensagens Corporativas</p>
+                Voltar
+            </button>
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>Chat</h1>
+                    <p>Sistema de Mensagens</p>
+                </div>
             </div>
         </div>
-        <div class="header-actions">
-            <button class="btn-back" onclick="goToDashboard()">
-                <svg viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-                Voltar ao Dashboard
-            </button>
-            <div class="user-info">
-                <div class="user-avatar" id="userAvatar">RC</div>
+        
+        <div class="user-section">
+            <div class="user-info" onclick="toggleDropdown()">
+                <div id="userAvatarContainer" class="user-avatar">US</div>
                 <div class="user-details">
                     <h3 id="userName">Carregando...</h3>
-                    <p>Administrador</p>
+                    <p>Online</p>
+                </div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-item" onclick="changeProfilePhoto()">
+                        <svg viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        Alterar Foto
+                    </div>
+                    <div class="dropdown-item" onclick="viewProfile()">
+                        <svg viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+                        </svg>
+                        Meu Perfil
+                    </div>
+                    <div class="dropdown-item" onclick="toggleDarkMode()">
+                        <svg viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
+                        </svg>
+                        <span id="darkModeText">Modo Escuro</span>
+                    </div>
+                    <div class="dropdown-item danger" onclick="logout()">
+                        <svg viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/>
+                        </svg>
+                        Sair
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="chat-container">
+        <!-- Sidebar de Contatos -->
         <div class="contacts-sidebar">
             <div class="sidebar-header">
                 <h2>Conversas</h2>
                 <div class="search-box">
                     <svg class="search-icon" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
                     </svg>
-                    <input type="text" placeholder="Buscar contatos..." id="searchContacts">
+                    <input type="text" placeholder="Buscar conversas..." id="searchContacts">
                 </div>
             </div>
+            
             <div class="contacts-list" id="contactsList">
-                <!-- Contatos serão inseridos aqui via JavaScript -->
+                <!-- Contatos serão carregados via JavaScript -->
             </div>
         </div>
 
+        <!-- Área Principal do Chat -->
         <div class="chat-area">
-            <div class="chat-header" id="chatHeader" style="display: none;">
-                <div class="chat-header-info">
+            <div class="chat-header" id="chatHeader">
+                <div class="empty-state" id="emptyChatState">
+                    <svg viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/>
+                    </svg>
+                    <h3>Selecione uma conversa</h3>
+                    <p>Escolha um contato para começar a conversar</p>
+                </div>
+                
+                <div class="chat-header-info" id="activeChatInfo" style="display: none;">
                     <div class="contact-avatar-wrapper">
-                        <div class="contact-avatar" id="currentContactAvatar">AS</div>
-                        <div class="status-indicator online" id="currentContactStatus"></div>
+                        <div class="contact-avatar" id="activeChatAvatar">AS</div>
+                        <div class="status-indicator online" id="activeChatStatus"></div>
                     </div>
                     <div>
-                        <h3 id="currentContactName">Selecione um contato</h3>
-                        <p id="currentContactStatusText">Online</p>
+                        <h3 id="activeChatName">Ana Silva</h3>
+                        <p id="activeChatStatusText">Online</p>
                     </div>
                 </div>
-                <div class="chat-actions">
+                
+                <div class="chat-actions" id="chatActions" style="display: none;">
                     <button class="action-icon-btn" onclick="makeCall()">
                         <svg viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
                         </svg>
                     </button>
-                    <button class="action-icon-btn" onclick="startVideo()">
+                    <button class="action-icon-btn" onclick="startVideoCall()">
                         <svg viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"/>
+                        </svg>
+                    </button>
+                    <button class="action-icon-btn" onclick="showContactInfo()">
+                        <svg viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/>
                         </svg>
                     </button>
                 </div>
             </div>
 
             <div class="messages-container" id="messagesContainer">
-                <div class="empty-state">
-                    <svg viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-                    </svg>
-                    <h3>Nenhuma conversa selecionada</h3>
-                    <p>Escolha um contato para iniciar uma conversa</p>
-                </div>
+                <!-- Mensagens serão carregadas via JavaScript -->
             </div>
 
-            <div class="message-input-area" id="inputArea" style="display: none;">
-                <div id="filePreviewContainer"></div>
-                <div class="input-wrapper">
-                    <div class="input-box">
-                        <button class="input-icon-btn" onclick="attachFile()">
-                            <svg viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
-                            </svg>
-                        </button>
-                        <textarea 
-                            id="messageInput" 
-                            placeholder="Digite sua mensagem..." 
-                            rows="1"
-                            onkeydown="handleKeyPress(event)"
-                        ></textarea>
-                        <button class="input-icon-btn" onclick="toggleEmojiPicker()">
-                            <svg viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <button class="btn-send" id="btnSend" onclick="sendMessage()">
+            <div class="message-input-area" id="messageInputArea" style="display: none;">
+                <!-- Preview de arquivo -->
+                <div class="file-preview" id="filePreview" style="display: none;">
+                    <div class="file-preview-icon">
                         <svg viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
+                        </svg>
+                    </div>
+                    <div class="file-preview-info">
+                        <h5 id="fileName">documento.pdf</h5>
+                        <p id="fileSize">2.4 MB</p>
+                    </div>
+                    <button class="file-preview-remove" onclick="removeFile()">
+                        <svg viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
-                
-                <!-- Emoji Picker -->
-                <div class="emoji-picker" id="emojiPicker">
-                    <div class="emoji-picker-header">
-                        <h4>Escolha um emoji</h4>
+
+                <div class="input-wrapper">
+                    <div class="input-box">
+                        <button class="input-icon-btn" onclick="toggleEmojiPicker()">
+                            <svg viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9 9h.01M15 9h.01"/>
+                            </svg>
+                        </button>
+                        <textarea placeholder="Digite sua mensagem..." id="messageInput" rows="1"></textarea>
+                        <button class="input-icon-btn" onclick="attachFile()">
+                            <svg viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
+                            </svg>
+                        </button>
                     </div>
-                    <div class="emoji-categories">
-                        <button class="emoji-category-btn active" onclick="showEmojiCategory('smileys', event)">😊 Rostos</button>
-                        <button class="emoji-category-btn" onclick="showEmojiCategory('gestures', event)">👋 Gestos</button>
-                        <button class="emoji-category-btn" onclick="showEmojiCategory('objects', event)">⚡ Objetos</button>
-                        <button class="emoji-category-btn" onclick="showEmojiCategory('symbols', event)">❤️ Símbolos</button>
-                    </div>
-                    <div class="emoji-grid" id="emojiGrid"></div>
+                    <button class="btn-send" id="sendButton" onclick="sendMessage()">
+                        <svg viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <input type="file" id="fileInput" style="display: none;" multiple accept="*/*">
+    <!-- Emoji Picker -->
+    <div class="emoji-picker" id="emojiPicker">
+        <div class="emoji-picker-header">
+            <h4>Emojis</h4>
+            <button class="input-icon-btn" onclick="toggleEmojiPicker()">
+                <svg viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <div class="emoji-categories">
+            <button class="emoji-category-btn active" data-category="smileys">😊</button>
+            <button class="emoji-category-btn" data-category="people">👋</button>
+            <button class="emoji-category-btn" data-category="nature">🐶</button>
+            <button class="emoji-category-btn" data-category="food">🍕</button>
+            <button class="emoji-category-btn" data-category="activities">⚽</button>
+            <button class="emoji-category-btn" data-category="objects">💡</button>
+            <button class="emoji-category-btn" data-category="symbols">❤️</button>
+        </div>
+        <div class="emoji-grid" id="emojiGrid">
+            <!-- Emojis serão carregados via JavaScript -->
+        </div>
+    </div>
 
     <script>
-        // ====== DADOS INICIAIS ======
-        const contacts = [
-            { id: 1, name: 'Ana Silva', avatar: 'AS', status: 'online', ramal: '1001', lastMessage: 'Reunião confirmada para 15h', unread: 2 },
-            { id: 2, name: 'Carlos Mendes', avatar: 'CM', status: 'busy', ramal: '1002', lastMessage: 'Cliente solicitou retorno', unread: 0 },
-            { id: 3, name: 'Beatriz Costa', avatar: 'BC', status: 'online', ramal: '1003', lastMessage: 'Documentos enviados', unread: 0 },
-            { id: 4, name: 'Daniel Oliveira', avatar: 'DO', status: 'offline', ramal: '1004', lastMessage: 'Aguardando resposta', unread: 0 },
-            { id: 5, name: 'Eduarda Santos', avatar: 'ES', status: 'online', ramal: '1005', lastMessage: 'Perfeito, obrigada!', unread: 1 },
-        ];
+        // ===== SISTEMA DE USUÁRIO E TEMAS =====
+        
+        // Função para obter a chave do usuário atual
+        function getUserKey(key) {
+            const currentUser = localStorage.getItem('currentUser');
+            return currentUser ? `${currentUser}_${key}` : key;
+        }
 
-        let currentContact = null;
-        let currentUser = null;
-        let attachedFiles = [];
+        // Identificar usuário ao carregar
+        function identifyUser() {
+            const session = localStorage.getItem('cloudpbx_session');
+            if (session) {
+                const userData = JSON.parse(session);
+                const userIdentifier = userData.email || userData.nome.replace(/\s+/g, '_').toLowerCase();
+                localStorage.setItem('currentUser', userIdentifier);
+            }
+        }
 
-        // ====== EMOJIS POR CATEGORIA ======
-        const emojiCategories = {
-            smileys: ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '😚', '😙', '🥲', '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐'],
-            gestures: ['👋', '🤚', '🖐️', '✋', '🖖', '👌', '🤌', '🤏', '✌️', '🤞', '🤟', '🤘', '🤙', '👈', '👉', '👆', '🖕', '👇', '☝️', '👍', '👎', '✊', '👊', '🤛', '🤜', '👏', '🙌', '👐', '🤲', '🤝', '🙏', '💪'],
-            objects: ['⚡', '🔥', '💧', '❄️', '☀️', '⭐', '🌟', '✨', '💫', '🎉', '🎊', '🎈', '🎁', '🏆', '🥇', '🥈', '🥉', '⚽', '🏀', '🎯', '🎮', '🎲', '🎨', '🎭', '🎪', '🎬', '🎤', '🎧', '🎼', '🎹', '📱', '💻'],
-            symbols: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔', '❤️‍🔥', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '💟', '☮️', '✝️', '☪️', '🕉️', '☸️', '✡️', '🔯', '🕎', '☯️', '☦️', '🛐', '⛎', '♈']
-        };
-
-        let currentEmojiCategory = 'smileys';
-
-        // ====== INICIALIZAÇÃO ======
-        window.onload = function() {
-            // Verificar sessão
+        // Função para carregar perfil do usuário
+        function loadUserProfile() {
             const session = localStorage.getItem('cloudpbx_session');
             if (!session) {
-                // Se não houver sessão, criar usuário exemplo para demonstração
-                currentUser = {
-                    nome: 'Roberto Costa',
-                    email: 'roberto@cloudpbx.com'
-                };
-            } else {
-                currentUser = JSON.parse(session);
+                window.location.href = 'login.html';
+                return;
             }
-            
-            document.getElementById('userName').textContent = currentUser.nome;
-            
-            const initials = currentUser.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-            document.getElementById('userAvatar').textContent = initials;
 
-            renderContacts();
-            autoResizeTextarea();
-            initEmojiPicker();
-            initFileUpload();
-        };
+            const userData = JSON.parse(session);
+            document.getElementById('userName').textContent = userData.nome;
+            updateAvatar();
+            applyTheme();
+        }
 
-        // ====== RENDERIZAÇÃO DE CONTATOS ======
-        function renderContacts() {
+        // Função para atualizar o avatar
+        function updateAvatar() {
+            const photoUrl = localStorage.getItem(getUserKey('userPhoto'));
+            const avatarContainer = document.getElementById('userAvatarContainer');
+            const userName = document.getElementById('userName').textContent;
+            
+            const initials = userName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            
+            if (photoUrl) {
+                avatarContainer.innerHTML = '';
+                const img = document.createElement('img');
+                img.src = photoUrl;
+                img.alt = 'Avatar';
+                img.className = 'user-avatar-image';
+                avatarContainer.appendChild(img);
+            } else {
+                avatarContainer.textContent = initials;
+                avatarContainer.className = 'user-avatar';
+            }
+        }
+
+        // Função para trocar foto de perfil
+        function changeProfilePhoto() {
+            document.getElementById('photoUploadChat').click();
+        }
+
+        // Configurar upload de foto
+        document.getElementById('photoUploadChat').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.size <= 2000000) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const photoUrl = event.target.result;
+                    localStorage.setItem(getUserKey('userPhoto'), photoUrl);
+                    updateAvatar();
+                    showNotification('Foto de perfil atualizada com sucesso!');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Arquivo muito grande. Máximo 2MB.');
+            }
+        });
+
+        // Aplicar tema
+        function applyTheme() {
+            const theme = localStorage.getItem(getUserKey('colorTheme')) || 'blue';
+            const darkMode = localStorage.getItem(getUserKey('darkMode')) === 'true';
+            
+            document.body.className = '';
+            
+            if (darkMode) {
+                document.body.classList.add('dark-theme');
+                document.getElementById('darkModeText').textContent = 'Modo Claro';
+            } else {
+                document.body.classList.add(`${theme}-theme`);
+                document.getElementById('darkModeText').textContent = 'Modo Escuro';
+            }
+        }
+
+        // Toggle modo escuro
+        function toggleDarkMode() {
+            const darkMode = localStorage.getItem(getUserKey('darkMode')) === 'true';
+            localStorage.setItem(getUserKey('darkMode'), !darkMode);
+            applyTheme();
+            showNotification(`Modo ${!darkMode ? 'escuro' : 'claro'} ativado!`);
+        }
+
+        // ===== FUNÇÕES DO CHAT =====
+
+        // Dados de exemplo para contatos e mensagens
+        const contacts = [
+            {
+                id: 1,
+                name: 'Ana Silva',
+                avatar: 'AS',
+                status: 'online',
+                lastMessage: 'Reunião confirmada para amanhã',
+                time: '10:30',
+                unread: 2
+            },
+            {
+                id: 2,
+                name: 'Carlos Mendes',
+                avatar: 'CM',
+                status: 'busy',
+                lastMessage: 'Preciso falar sobre o projeto',
+                time: '09:15',
+                unread: 0
+            },
+            {
+                id: 3,
+                name: 'Beatriz Costa',
+                avatar: 'BC',
+                status: 'online',
+                lastMessage: 'Documentos enviados',
+                time: 'Ontem',
+                unread: 1
+            },
+            {
+                id: 4,
+                name: 'Daniel Oliveira',
+                avatar: 'DO',
+                status: 'offline',
+                lastMessage: 'Vamos marcar uma call?',
+                time: 'Segunda',
+                unread: 0
+            }
+        ];
+
+        let currentChat = null;
+
+        // Carregar lista de contatos
+        function loadContacts() {
             const contactsList = document.getElementById('contactsList');
             contactsList.innerHTML = '';
 
             contacts.forEach(contact => {
-                const contactElement = document.createElement('div');
-                contactElement.className = 'contact-item';
-                contactElement.onclick = () => selectContact(contact, contactElement);
+                const contactItem = document.createElement('div');
+                contactItem.className = 'contact-item';
+                contactItem.onclick = () => selectChat(contact.id);
 
-                contactElement.innerHTML = `
+                contactItem.innerHTML = `
                     <div class="contact-avatar-wrapper">
                         <div class="contact-avatar">${contact.avatar}</div>
                         <div class="status-indicator ${contact.status}"></div>
@@ -205,431 +362,287 @@
                         <h4>${contact.name}</h4>
                         <p>${contact.lastMessage}</p>
                     </div>
-                    ${contact.unread > 0 ? `<div class="unread-badge">${contact.unread}</div>` : ''}
+                    <div class="contact-meta">
+                        <span class="message-time">${contact.time}</span>
+                        ${contact.unread > 0 ? `<div class="unread-badge">${contact.unread}</div>` : ''}
+                    </div>
                 `;
 
-                contactsList.appendChild(contactElement);
+                contactsList.appendChild(contactItem);
             });
         }
 
-        // ====== SELEÇÃO DE CONTATO ======
-        function selectContact(contact, element) {
-            currentContact = contact;
+        // Selecionar chat
+        function selectChat(contactId) {
+            currentChat = contacts.find(c => c.id === contactId);
+            
+            // Atualizar UI
+            document.getElementById('emptyChatState').style.display = 'none';
+            document.getElementById('activeChatInfo').style.display = 'flex';
+            document.getElementById('chatActions').style.display = 'flex';
+            document.getElementById('messageInputArea').style.display = 'block';
 
-            // Atualizar visualização dos contatos
-            document.querySelectorAll('.contact-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            element.classList.add('active');
+            // Atualizar informações do chat ativo
+            document.getElementById('activeChatName').textContent = currentChat.name;
+            document.getElementById('activeChatAvatar').textContent = currentChat.avatar;
+            document.getElementById('activeChatStatus').className = `status-indicator ${currentChat.status}`;
+            document.getElementById('activeChatStatusText').textContent = 
+                currentChat.status === 'online' ? 'Online' : 
+                currentChat.status === 'busy' ? 'Ocupado' : 'Offline';
 
-            // Remover badge de não lidas
-            contact.unread = 0;
-            renderContacts();
-
-            // Mostrar header do chat e área de input
-            document.getElementById('chatHeader').style.display = 'flex';
-            document.getElementById('inputArea').style.display = 'block';
-
-            // Atualizar informações do contato no header
-            document.getElementById('currentContactAvatar').textContent = contact.avatar;
-            document.getElementById('currentContactName').textContent = contact.name;
-            document.getElementById('currentContactStatus').className = `status-indicator ${contact.status}`;
-
-            const statusText = document.getElementById('currentContactStatusText');
-            statusText.textContent = contact.status === 'online' ? 'Online' : 
-                                     contact.status === 'busy' ? 'Ocupado' : 'Offline';
-
-            // Carregar histórico de mensagens
+            // Carregar mensagens
             loadMessages();
         }
 
-        // ====== CARREGAR MENSAGENS ======
+        // Carregar mensagens (exemplo)
         function loadMessages() {
             const messagesContainer = document.getElementById('messagesContainer');
             messagesContainer.innerHTML = '';
 
-            // Carregar mensagens do localStorage
-            const storageKey = `chat_${currentUser.email}_${currentContact.id}`;
-            const savedMessages = localStorage.getItem(storageKey);
-            let messages = savedMessages ? JSON.parse(savedMessages) : [];
+            // Mensagens de exemplo
+            const messages = [
+                { type: 'received', text: 'Olá! Como você está?', time: '10:25' },
+                { type: 'sent', text: 'Estou bem, obrigado! E você?', time: '10:26' },
+                { type: 'received', text: 'Também estou bem. Precisamos conversar sobre o projeto novo.', time: '10:27' },
+                { type: 'sent', text: 'Claro! Podemos marcar uma reunião amanhã?', time: '10:28' },
+                { type: 'received', text: 'Perfeito! Que tal às 14h?', time: '10:29' },
+                { type: 'sent', text: 'Ótimo! Te vejo então 😊', time: '10:30' }
+            ];
 
-            // Se não houver mensagens, criar algumas de exemplo
-            if (messages.length === 0) {
-                messages = generateSampleMessages();
-                localStorage.setItem(storageKey, JSON.stringify(messages));
-            }
+            messages.forEach(message => {
+                const messageGroup = document.createElement('div');
+                messageGroup.className = 'message-group';
 
-            // Agrupar mensagens por data
-            const messagesByDate = groupMessagesByDate(messages);
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${message.type}`;
 
-            // Renderizar mensagens
-            Object.keys(messagesByDate).forEach(date => {
-                // Adicionar divisor de data
-                const dateDivider = document.createElement('div');
-                dateDivider.className = 'date-divider';
-                dateDivider.innerHTML = `<span>${formatDate(date)}</span>`;
-                messagesContainer.appendChild(dateDivider);
-
-                // Adicionar mensagens da data
-                messagesByDate[date].forEach(msg => {
-                    const messageElement = createMessageElement(msg);
-                    messagesContainer.appendChild(messageElement);
-                });
-            });
-
-            // Scroll para o final
-            scrollToBottom();
-        }
-
-        // ====== CRIAR ELEMENTO DE MENSAGEM ======
-        function createMessageElement(msg) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${msg.sent ? 'sent' : 'received'}`;
-
-            const avatar = msg.sent ? 
-                currentUser.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() :
-                currentContact.avatar;
-
-            let fileHTML = '';
-            if (msg.file) {
-                fileHTML = `
-                    <div class="message-file">
-                        <div class="message-file-icon">
-                            <svg viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                            </svg>
-                        </div>
-                        <div class="message-file-info">
-                            <h5>${msg.file.name}</h5>
-                            <p>${formatFileSize(msg.file.size)}</p>
-                        </div>
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">${message.type === 'received' ? currentChat.avatar : 'EU'}</div>
+                    <div class="message-content">
+                        <div class="message-bubble">${message.text}</div>
+                        <div class="message-time">${message.time}</div>
                     </div>
                 `;
+
+                messageGroup.appendChild(messageDiv);
+                messagesContainer.appendChild(messageGroup);
+            });
+
+            // Scroll para baixo
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Enviar mensagem
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const text = messageInput.value.trim();
+
+            if (text && currentChat) {
+                const messagesContainer = document.getElementById('messagesContainer');
+                const messageGroup = document.createElement('div');
+                messageGroup.className = 'message-group';
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message sent';
+
+                const now = new Date();
+                const time = now.getHours().toString().padStart(2, '0') + ':' + 
+                            now.getMinutes().toString().padStart(2, '0');
+
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">EU</div>
+                    <div class="message-content">
+                        <div class="message-bubble">${text}</div>
+                        <div class="message-time">${time}</div>
+                    </div>
+                `;
+
+                messageGroup.appendChild(messageDiv);
+                messagesContainer.appendChild(messageGroup);
+
+                // Limpar input
+                messageInput.value = '';
+                messageInput.style.height = 'auto';
+
+                // Scroll para baixo
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                // Simular resposta após 1-3 segundos
+                setTimeout(simulateReply, Math.random() * 2000 + 1000);
             }
+        }
+
+        // Simular resposta
+        function simulateReply() {
+            if (!currentChat) return;
+
+            const replies = [
+                'Entendi!',
+                'Ótimo!',
+                'Vamos combinar então',
+                'Perfeito!',
+                'Obrigado!',
+                'Combinado 👌'
+            ];
+
+            const reply = replies[Math.floor(Math.random() * replies.length)];
+            const messagesContainer = document.getElementById('messagesContainer');
+            const messageGroup = document.createElement('div');
+            messageGroup.className = 'message-group';
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message received';
+
+            const now = new Date();
+            const time = now.getHours().toString().padStart(2, '0') + ':' + 
+                        now.getMinutes().toString().padStart(2, '0');
 
             messageDiv.innerHTML = `
-                <div class="message-avatar">${avatar}</div>
+                <div class="message-avatar">${currentChat.avatar}</div>
                 <div class="message-content">
-                    ${msg.text ? `<div class="message-bubble">${escapeHtml(msg.text)}</div>` : ''}
-                    ${fileHTML}
-                    <div class="message-time">${formatTime(msg.timestamp)}</div>
+                    <div class="message-bubble">${reply}</div>
+                    <div class="message-time">${time}</div>
                 </div>
             `;
 
-            return messageDiv;
+            messageGroup.appendChild(messageDiv);
+            messagesContainer.appendChild(messageGroup);
+
+            // Scroll para baixo
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        // ====== GERAR MENSAGENS DE EXEMPLO ======
-        function generateSampleMessages() {
-            const now = new Date();
-            const messages = [];
-
-            // Mensagens de ontem
-            const yesterday = new Date(now);
-            yesterday.setDate(yesterday.getDate() - 1);
-            yesterday.setHours(14, 30, 0);
-
-            messages.push({
-                text: `Olá ${currentUser.nome.split(' ')[0]}, tudo bem?`,
-                sent: false,
-                timestamp: yesterday.getTime()
-            });
-
-            yesterday.setMinutes(32);
-            messages.push({
-                text: 'Oi! Tudo ótimo, e você?',
-                sent: true,
-                timestamp: yesterday.getTime()
-            });
-
-            yesterday.setMinutes(35);
-            messages.push({
-                text: 'Também! Preciso falar sobre o projeto.',
-                sent: false,
-                timestamp: yesterday.getTime()
-            });
-
-            // Mensagens de hoje
-            const today = new Date(now);
-            today.setHours(9, 15, 0);
-
-            messages.push({
-                text: 'Bom dia! Podemos conversar agora?',
-                sent: false,
-                timestamp: today.getTime()
-            });
-
-            today.setMinutes(20);
-            messages.push({
-                text: 'Bom dia! Claro, estou disponível.',
-                sent: true,
-                timestamp: today.getTime()
-            });
-
-            return messages;
-        }
-
-        // ====== ENVIAR MENSAGEM ======
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const text = input.value.trim();
-
-            if ((!text && attachedFiles.length === 0) || !currentContact) return;
-
-            // Criar mensagem
-            const message = {
-                text: text,
-                sent: true,
-                timestamp: Date.now(),
-                file: attachedFiles.length > 0 ? attachedFiles[0] : null
-            };
-
-            // Salvar no localStorage
-            const storageKey = `chat_${currentUser.email}_${currentContact.id}`;
-            const savedMessages = localStorage.getItem(storageKey);
-            const messages = savedMessages ? JSON.parse(savedMessages) : [];
-            messages.push(message);
-            localStorage.setItem(storageKey, JSON.stringify(messages));
-
-            // Limpar input e arquivos
-            input.value = '';
-            input.style.height = 'auto';
-            attachedFiles = [];
-            document.getElementById('filePreviewContainer').innerHTML = '';
-
-            // Recarregar mensagens
-            loadMessages();
-
-            // Atualizar última mensagem do contato
-            const contact = contacts.find(c => c.id === currentContact.id);
-            if (contact) {
-                const lastMsg = message.file ? `📎 ${message.file.name}` : text;
-                contact.lastMessage = lastMsg.substring(0, 30) + (lastMsg.length > 30 ? '...' : '');
-            }
-        }
-
-        // ====== BUSCAR CONTATOS ======
-        document.getElementById('searchContacts').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const contactItems = document.querySelectorAll('.contact-item');
-
-            contactItems.forEach(item => {
-                const name = item.querySelector('.contact-info h4').textContent.toLowerCase();
-                if (name.includes(searchTerm)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-
-        // ====== TEXTAREA AUTO-RESIZE ======
-        function autoResizeTextarea() {
-            const textarea = document.getElementById('messageInput');
-            textarea.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-            });
-        }
-
-        // ====== ENVIAR COM ENTER ======
-        function handleKeyPress(event) {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                sendMessage();
-            }
-        }
-
-        // ====== SCROLL PARA O FINAL ======
-        function scrollToBottom() {
-            const container = document.getElementById('messagesContainer');
-            setTimeout(() => {
-                container.scrollTop = container.scrollHeight;
-            }, 100);
-        }
-
-        // ====== FUNÇÕES AUXILIARES ======
-        function groupMessagesByDate(messages) {
-            const grouped = {};
-            messages.forEach(msg => {
-                const date = new Date(msg.timestamp).toDateString();
-                if (!grouped[date]) {
-                    grouped[date] = [];
-                }
-                grouped[date].push(msg);
-            });
-            return grouped;
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const today = new Date();
-            const yesterday = new Date(today);
-            yesterday.setDate(yesterday.getDate() - 1);
-
-            if (date.toDateString() === today.toDateString()) {
-                return 'Hoje';
-            } else if (date.toDateString() === yesterday.toDateString()) {
-                return 'Ontem';
-            } else {
-                return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' });
-            }
-        }
-
-        function formatTime(timestamp) {
-            return new Date(timestamp).toLocaleTimeString('pt-BR', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-        }
-
-        // ====== EMOJI PICKER ======
-        function initEmojiPicker() {
-            showEmojiCategory('smileys');
-            
-            // Fechar ao clicar fora
-            document.addEventListener('click', function(e) {
-                const picker = document.getElementById('emojiPicker');
-                const emojiBtn = e.target.closest('.input-icon-btn');
-                
-                if (!picker.contains(e.target) && (!emojiBtn || !emojiBtn.onclick || !emojiBtn.onclick.toString().includes('toggleEmojiPicker'))) {
-                    picker.classList.remove('show');
-                }
-            });
-        }
+        // ===== EMOJI PICKER =====
 
         function toggleEmojiPicker() {
-            event.stopPropagation();
             const picker = document.getElementById('emojiPicker');
             picker.classList.toggle('show');
         }
 
-        function showEmojiCategory(category, e) {
-            if (e) e.stopPropagation();
-            currentEmojiCategory = category;
-            
-            // Atualizar botões de categoria
-            document.querySelectorAll('.emoji-category-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            if (e) {
-                e.target.classList.add('active');
-            } else {
-                document.querySelector('.emoji-category-btn').classList.add('active');
-            }
-
-            // Renderizar emojis
-            const grid = document.getElementById('emojiGrid');
-            grid.innerHTML = '';
-
-            emojiCategories[category].forEach(emoji => {
-                const item = document.createElement('div');
-                item.className = 'emoji-item';
-                item.textContent = emoji;
-                item.onclick = (e) => {
-                    e.stopPropagation();
-                    insertEmoji(emoji);
-                };
-                grid.appendChild(item);
-            });
-        }
-
-        function insertEmoji(emoji) {
-            const input = document.getElementById('messageInput');
-            const start = input.selectionStart;
-            const end = input.selectionEnd;
-            const text = input.value;
-            
-            input.value = text.substring(0, start) + emoji + text.substring(end);
-            input.selectionStart = input.selectionEnd = start + emoji.length;
-            input.focus();
-            
-            // Fechar picker
-            document.getElementById('emojiPicker').classList.remove('show');
-        }
-
-        // ====== UPLOAD DE ARQUIVOS ======
-        function initFileUpload() {
-            const fileInput = document.getElementById('fileInput');
-            
-            fileInput.addEventListener('change', function(e) {
-                const files = Array.from(e.target.files);
-                
-                files.forEach(file => {
-                    attachedFiles.push({
-                        name: file.name,
-                        size: file.size,
-                        type: file.type
-                    });
-                });
-
-                renderFilePreview();
-                fileInput.value = ''; // Limpar input
-            });
-        }
-
-        function attachFile() {
-            document.getElementById('fileInput').click();
-        }
-
-        function renderFilePreview() {
-            const container = document.getElementById('filePreviewContainer');
-            container.innerHTML = '';
-
-            attachedFiles.forEach((file, index) => {
-                const preview = document.createElement('div');
-                preview.className = 'file-preview';
-                preview.innerHTML = `
-                    <div class="file-preview-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                        </svg>
-                    </div>
-                    <div class="file-preview-info">
-                        <h5>${file.name}</h5>
-                        <p>${formatFileSize(file.size)}</p>
-                    </div>
-                    <button class="file-preview-remove" onclick="removeFile(${index})">
-                        <svg viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                `;
-                container.appendChild(preview);
-            });
-        }
-
-        function removeFile(index) {
-            attachedFiles.splice(index, 1);
-            renderFilePreview();
-        }
-
-        // ====== FUNCIONALIDADES ADICIONAIS ======
-        function makeCall() {
-            window.location.href = 'call.html'; 
-        }
-
-        function startVideo() {
-           window.location.href = 'call.html';
-        }
+        // ===== FUNÇÕES DE NAVEGAÇÃO =====
 
         function goToDashboard() {
             window.location.href = 'dashboard.html';
         }
+
+        function viewProfile() {
+            window.location.href = 'perfil.html';
+        }
+
+        function makeCall() {
+            if (currentChat) {
+                showNotification(`Chamando ${currentChat.name}...`);
+            }
+        }
+
+        function startVideoCall() {
+            if (currentChat) {
+                showNotification(`Iniciando videochamada com ${currentChat.name}...`);
+            }
+        }
+
+        function showContactInfo() {
+            if (currentChat) {
+                showNotification(`Informações de ${currentChat.name}`);
+            }
+        }
+
+        function logout() {
+            if (confirm('Deseja realmente sair?')) {
+                localStorage.removeItem('cloudpbx_session');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Toggle dropdown
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('show');
+        }
+
+        // Fechar dropdown ao clicar fora
+        document.addEventListener('click', function(event) {
+            const userInfo = document.querySelector('.user-info');
+            const dropdown = document.getElementById('dropdownMenu');
+            
+            if (!userInfo.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Notificação
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 2rem;
+                background: #10b981;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+                font-weight: 600;
+                font-size: 14px;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Auto-resize textarea
+        document.getElementById('messageInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // Enviar mensagem com Enter
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Inicialização
+        window.onload = function() {
+            identifyUser();
+            loadUserProfile();
+            loadContacts();
+            applyTheme();
+            
+            // Adicionar estilos de animação
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideInRight {
+                    from {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+                @keyframes slideOutRight {
+                    from {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                    to {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        };
     </script>
 </body>
 </html>

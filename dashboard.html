@@ -610,12 +610,41 @@
 
         // Funções dos botões flutuantes
         function openSettings() {
-          window.location.href = 'configuracao.hmtl';
+          window.location.href = 'configuracao.html';
         }
 
         function openHelp() {
             alert('Central de Ajuda - Em desenvolvimento');
         }
+
+
+        // Aplicar modo escuro
+function applyDarkMode() {
+    const darkMode = localStorage.getItem(getUserKey('darkMode')) === 'true';
+    const theme = localStorage.getItem(getUserKey('colorTheme')) || 'blue';
+    
+    document.body.className = ''; // Reset classes
+    
+    if (darkMode) {
+        document.body.classList.add('dark-theme');
+    } else {
+        document.body.classList.add(`${theme}-theme`);
+    }
+}
+
+// Atualize o window.onload para incluir applyDarkMode():
+window.onload = function() {
+    identifyUser();
+    loadUserProfile();
+    applyDarkMode();
+    
+    // Recarregar quando a página receber foco
+    window.addEventListener('focus', function() {
+        loadUserProfile();
+        applyDarkMode();
+    });
+};
+
     </script>
 </body>
 </html>

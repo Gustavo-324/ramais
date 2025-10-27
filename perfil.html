@@ -6,7 +6,6 @@
     <title>Meu Perfil - Sistema de Ramais</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="perfil.css">
-
 </head>
 <body>
     <!-- Header -->
@@ -162,17 +161,9 @@
                             <div style="font-weight: 600; margin-bottom: 0.25rem;">Modo Escuro</div>
                             <div style="font-size: 0.875rem; color: #64748b;">Ative o tema escuro para reduzir cansaço visual</div>
                         </div>
-                        <div class="switch" id="darkModeSwitch" onclick="toggleSwitch('darkModeSwitch')">
+                        <div class="switch" id="darkModeSwitch" onclick="toggleDarkMode()">
                             <div class="switch-slider"></div>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Estilo de Layout</label>
-                        <select id="layoutStyle" class="form-input">
-                            <option value="comfortable">Confortável (Espaçado)</option>
-                            <option value="compact">Compacto</option>
-                        </select>
                     </div>
 
                     <button class="save-button" onclick="saveCustomization()">Salvar Preferências</button>
@@ -281,10 +272,10 @@
             const darkMode = localStorage.getItem(getUserKey('darkMode')) === 'true';
             if (darkMode) {
                 document.getElementById('darkModeSwitch').classList.add('active');
+                applyDarkMode(true);
+            } else {
+                applyTheme(theme);
             }
-
-            const layout = localStorage.getItem(getUserKey('layoutStyle')) || 'comfortable';
-            document.getElementById('layoutStyle').value = layout;
 
             // Company
             document.getElementById('ramalNumber').value = profile.ramal || '';
@@ -363,9 +354,6 @@
         }
 
         function saveCustomization() {
-            const layout = document.getElementById('layoutStyle').value;
-            localStorage.setItem(getUserKey('layoutStyle'), layout);
-            
             const darkMode = document.getElementById('darkModeSwitch').classList.contains('active');
             localStorage.setItem(getUserKey('darkMode'), darkMode);
             
@@ -393,27 +381,53 @@
             switchEl.classList.toggle('active');
         }
 
+        // Toggle Dark Mode
+        function toggleDarkMode() {
+            const switchEl = document.getElementById('darkModeSwitch');
+            const isActive = switchEl.classList.contains('active');
+            
+            if (isActive) {
+                switchEl.classList.remove('active');
+                applyDarkMode(false);
+                localStorage.setItem(getUserKey('darkMode'), 'false');
+            } else {
+                switchEl.classList.add('active');
+                applyDarkMode(true);
+                localStorage.setItem(getUserKey('darkMode'), 'true');
+            }
+            
+            showNotification('Modo escuro ' + (isActive ? 'desativado' : 'ativado') + '!');
+        }
+
+        // Aplicar modo escuro
+        function applyDarkMode(enabled) {
+            if (enabled) {
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme', 'blue-theme');
+            } else {
+                // Aplicar o tema de cor atual
+                const theme = localStorage.getItem(getUserKey('colorTheme')) || 'blue';
+                document.body.classList.remove('dark-theme');
+                document.body.classList.add(`${theme}-theme`);
+            }
+        }
+
         // Theme Selection
         function selectTheme(theme) {
             document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('selected'));
             document.querySelector(`[data-theme="${theme}"]`).classList.add('selected');
             localStorage.setItem(getUserKey('colorTheme'), theme);
             
-            // Aplicar o tema imediatamente
-            applyTheme();
+            // Aplicar o tema imediatamente (se não estiver no modo escuro)
+            const darkMode = localStorage.getItem(getUserKey('darkMode')) === 'true';
+            if (!darkMode) {
+                applyTheme(theme);
+            }
         }
 
         // Função para aplicar o tema
-        function applyTheme() {
-            const theme = localStorage.getItem(getUserKey('colorTheme')) || 'blue';
-            const darkMode = localStorage.getItem(getUserKey('darkMode')) === 'true';
-            
+        function applyTheme(theme) {
             document.body.className = ''; // Reset classes
-            
-            if (darkMode) {
-                document.body.classList.add('dark-theme');
-            }
-            
             document.body.classList.add(`${theme}-theme`);
         }
 
@@ -477,13 +491,7 @@
         window.addEventListener('DOMContentLoaded', function() {
             identifyUser();
             loadProfileData();
-            applyTheme();
         });
-
-        // Export function for use in dashboard
-        function goToProfile() {
-            window.location.href = 'perfil.html';
-        }
     </script>
 </body>
 </html>

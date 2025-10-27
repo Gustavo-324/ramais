@@ -372,90 +372,146 @@ body {
     color: #64748b;
 }
 
-/* Temas para a página de perfil */
-.blue-theme {
-    --primary-color: #3b82f6;
-    --primary-dark: #2563eb;
-    --primary-light: #dbeafe;
-}
+/* ===== TEMAS PARA PERFIL ===== */
 
+/* Tema Escuro */
 .dark-theme {
-    --primary-color: #1e293b;
-    --primary-dark: #0f172a;
-    --primary-light: #334155;
-    background: #0f172a;
-    color: #f1f5f9;
+    background: #0f172a !important;
+    color: #f1f5f9 !important;
 }
 
 .dark-theme .header {
-    background: #1e293b;
-    border-bottom-color: #334155;
+    background: #1e293b !important;
+    border-bottom-color: #334155 !important;
+}
+
+.dark-theme .logo {
+    color: #60a5fa !important;
 }
 
 .dark-theme .card,
 .dark-theme .sidebar {
-    background: #1e293b;
-    border: 1px solid #334155;
-    color: #f1f5f9;
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
 }
 
 .dark-theme .card-title,
-.dark-theme .menu-title {
-    color: #f1f5f9;
+.dark-theme .menu-title,
+.dark-theme .info-label,
+.dark-theme .form-label {
+    color: #f1f5f9 !important;
 }
 
 .dark-theme .card-subtitle,
-.dark-theme .form-label,
-.dark-theme .info-label {
-    color: #cbd5e1;
+.dark-theme .info-value {
+    color: #cbd5e1 !important;
 }
 
 .dark-theme .form-input {
-    background: #334155;
-    border-color: #475569;
-    color: #f1f5f9;
+    background: #334155 !important;
+    border-color: #475569 !important;
+    color: #f1f5f9 !important;
 }
 
 .dark-theme .form-input::placeholder {
-    color: #94a3b8;
+    color: #94a3b8 !important;
 }
 
-.dark-theme .profile-photo-section {
-    background: #334155;
+.dark-theme .form-input:focus {
+    border-color: #60a5fa !important;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1) !important;
 }
 
-.dark-theme .toggle-switch {
-    background: #334155;
-}
-
+.dark-theme .profile-photo-section,
+.dark-theme .toggle-switch,
 .dark-theme .info-row {
-    background: #334155;
+    background: #334155 !important;
 }
 
+.dark-theme .menu-item {
+    color: #cbd5e1 !important;
+}
+
+.dark-theme .menu-item:hover {
+    background: #334155 !important;
+    color: #60a5fa !important;
+}
+
+.dark-theme .menu-item.active {
+    background: #1e3a8a !important;
+    color: #60a5fa !important;
+}
+
+.dark-theme .theme-option {
+    background: #334155 !important;
+    border-color: #475569 !important;
+    color: #f1f5f9 !important;
+}
+
+.dark-theme .theme-option:hover {
+    border-color: #60a5fa !important;
+}
+
+.dark-theme .theme-option.selected {
+    background: #1e3a8a !important;
+    border-color: #60a5fa !important;
+}
+
+.dark-theme .back-button {
+    background: #334155 !important;
+}
+
+.dark-theme .back-button:hover {
+    background: #475569 !important;
+}
+
+.dark-theme .back-button svg {
+    stroke: #f1f5f9 !important;
+}
+
+.dark-theme .switch {
+    background: #475569 !important;
+}
+
+.dark-theme .switch.active {
+    background: #3b82f6 !important;
+}
+
+/* Tema Light */
 .light-theme {
-    --primary-color: #ffffff;
-    --primary-dark: #f1f5f9;
-    --primary-light: #f8fafc;
+    background: #ffffff !important;
 }
 
-/* Aplicar cores do tema */
-.upload-button,
-.save-button {
-    background: var(--primary-color);
+.light-theme .header {
+    background: #ffffff !important;
+    border-bottom-color: #e5e7eb !important;
 }
 
-.upload-button:hover,
-.save-button:hover {
-    background: var(--primary-dark);
+.light-theme .card,
+.light-theme .sidebar {
+    background: #ffffff !important;
+    border-color: #f3f4f6 !important;
 }
 
-.back-button {
-    background: var(--primary-light);
+.light-theme .upload-button,
+.light-theme .save-button {
+    background: #f8fafc !important;
+    color: #374151 !important;
+    border: 1px solid #e5e7eb !important;
 }
 
-.menu-item.active {
-    background: var(--primary-light);
-    color: var(--primary-color);
+.light-theme .upload-button:hover,
+.light-theme .save-button:hover {
+    background: #f1f5f9 !important;
+}
+
+.light-theme .back-button {
+    background: #f8fafc !important;
+}
+
+.light-theme .menu-item.active {
+    background: #f8fafc !important;
+    color: #374151 !important;
 }
 
 /* Responsive */

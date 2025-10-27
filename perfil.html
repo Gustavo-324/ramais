@@ -236,9 +236,25 @@
     </div>
 
     <script>
+        // Função para obter a chave do usuário atual
+        function getUserKey(key) {
+            const currentUser = localStorage.getItem('currentUser');
+            return currentUser ? `${currentUser}_${key}` : key;
+        }
+
+        // Identificar usuário ao carregar
+        function identifyUser() {
+            const session = localStorage.getItem('cloudpbx_session');
+            if (session) {
+                const userData = JSON.parse(session);
+                const userIdentifier = userData.email || userData.nome.replace(/\s+/g, '_').toLowerCase();
+                localStorage.setItem('currentUser', userIdentifier);
+            }
+        }
+
         // Initialize data from localStorage
         function loadProfileData() {
-            const profile = JSON.parse(localStorage.getItem('userProfile')) || {};
+            const profile = JSON.parse(localStorage.getItem(getUserKey('userProfile'))) || {};
             
             // Personal Info
             document.getElementById('fullName').value = profile.fullName || '';
@@ -246,28 +262,28 @@
             document.getElementById('phone').value = profile.phone || '';
             
             // Photo
-            const photoUrl = localStorage.getItem('userPhoto');
+            const photoUrl = localStorage.getItem(getUserKey('userPhoto'));
             if (photoUrl) {
                 document.getElementById('profilePhotoPreview').src = photoUrl;
                 document.getElementById('headerAvatar').src = photoUrl;
             }
 
             // Security
-            const twoFactor = localStorage.getItem('twoFactorEnabled') === 'true';
+            const twoFactor = localStorage.getItem(getUserKey('twoFactorEnabled')) === 'true';
             if (twoFactor) {
                 document.getElementById('twoFactorSwitch').classList.add('active');
             }
 
             // Customization
-            const theme = localStorage.getItem('colorTheme') || 'blue';
+            const theme = localStorage.getItem(getUserKey('colorTheme')) || 'blue';
             selectTheme(theme);
             
-            const darkMode = localStorage.getItem('darkMode') === 'true';
+            const darkMode = localStorage.getItem(getUserKey('darkMode')) === 'true';
             if (darkMode) {
                 document.getElementById('darkModeSwitch').classList.add('active');
             }
 
-            const layout = localStorage.getItem('layoutStyle') || 'comfortable';
+            const layout = localStorage.getItem(getUserKey('layoutStyle')) || 'comfortable';
             document.getElementById('layoutStyle').value = layout;
 
             // Company
@@ -302,7 +318,7 @@
                     const photoUrl = event.target.result;
                     document.getElementById('profilePhotoPreview').src = photoUrl;
                     document.getElementById('headerAvatar').src = photoUrl;
-                    localStorage.setItem('userPhoto', photoUrl);
+                    localStorage.setItem(getUserKey('userPhoto'), photoUrl);
                     showNotification('Foto atualizada com sucesso!');
                 };
                 reader.readAsDataURL(file);
@@ -313,12 +329,12 @@
 
         // Save Functions
         function savePersonalInfo() {
-            const profile = JSON.parse(localStorage.getItem('userProfile')) || {};
+            const profile = JSON.parse(localStorage.getItem(getUserKey('userProfile'))) || {};
             profile.fullName = document.getElementById('fullName').value;
             profile.email = document.getElementById('email').value;
             profile.phone = document.getElementById('phone').value;
             
-            localStorage.setItem('userProfile', JSON.stringify(profile));
+            localStorage.setItem(getUserKey('userProfile'), JSON.stringify(profile));
             showNotification('Informações pessoais salvas com sucesso!');
         }
 
@@ -333,10 +349,10 @@
             }
 
             const twoFactorEnabled = document.getElementById('twoFactorSwitch').classList.contains('active');
-            localStorage.setItem('twoFactorEnabled', twoFactorEnabled);
+            localStorage.setItem(getUserKey('twoFactorEnabled'), twoFactorEnabled);
 
             if (newPass) {
-                localStorage.setItem('userPassword', newPass);
+                localStorage.setItem(getUserKey('userPassword'), newPass);
             }
 
             document.getElementById('currentPassword').value = '';
@@ -348,16 +364,16 @@
 
         function saveCustomization() {
             const layout = document.getElementById('layoutStyle').value;
-            localStorage.setItem('layoutStyle', layout);
+            localStorage.setItem(getUserKey('layoutStyle'), layout);
             
             const darkMode = document.getElementById('darkModeSwitch').classList.contains('active');
-            localStorage.setItem('darkMode', darkMode);
+            localStorage.setItem(getUserKey('darkMode'), darkMode);
             
             showNotification('Preferências de personalização salvas!');
         }
 
         function saveCompanyInfo() {
-            const profile = JSON.parse(localStorage.getItem('userProfile')) || {};
+            const profile = JSON.parse(localStorage.getItem(getUserKey('userProfile'))) || {};
             profile.ramal = document.getElementById('ramalNumber').value;
             profile.position = document.getElementById('position').value;
             profile.department = document.getElementById('department').value;
@@ -366,7 +382,7 @@
             profile.address = document.getElementById('address').value;
             profile.domain = document.getElementById('domain').value;
             
-            localStorage.setItem('userProfile', JSON.stringify(profile));
+            localStorage.setItem(getUserKey('userProfile'), JSON.stringify(profile));
             document.getElementById('displayRamal').textContent = profile.ramal || '----';
             showNotification('Informações empresariais salvas com sucesso!');
         }
@@ -381,7 +397,24 @@
         function selectTheme(theme) {
             document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('selected'));
             document.querySelector(`[data-theme="${theme}"]`).classList.add('selected');
-            localStorage.setItem('colorTheme', theme);
+            localStorage.setItem(getUserKey('colorTheme'), theme);
+            
+            // Aplicar o tema imediatamente
+            applyTheme();
+        }
+
+        // Função para aplicar o tema
+        function applyTheme() {
+            const theme = localStorage.getItem(getUserKey('colorTheme')) || 'blue';
+            const darkMode = localStorage.getItem(getUserKey('darkMode')) === 'true';
+            
+            document.body.className = ''; // Reset classes
+            
+            if (darkMode) {
+                document.body.classList.add('dark-theme');
+            }
+            
+            document.body.classList.add(`${theme}-theme`);
         }
 
         // Navigation
@@ -440,8 +473,12 @@
         `;
         document.head.appendChild(style);
 
-        // Initialize on load
-        window.addEventListener('DOMContentLoaded', loadProfileData);
+        // Inicializar
+        window.addEventListener('DOMContentLoaded', function() {
+            identifyUser();
+            loadProfileData();
+            applyTheme();
+        });
 
         // Export function for use in dashboard
         function goToProfile() {
